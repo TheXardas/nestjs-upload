@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "424a42ed-2d06-45a3-bff2-6f6bcc36806c",
+		"name": "Uploader",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3261797"
+	},
+	"item": [
+		{
+			"name": "/auth/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"login\":\"admin\",\"password\":\"admin\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/auth/login",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/download/:version_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ACCESS_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/download/:version_id",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"download",
+						":version_id"
+					],
+					"variable": [
+						{
+							"key": "version_id",
+							"value": "clxt0epza00066vjgwzkp5psu"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/upload",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ACCESS_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/macbook/Downloads/bandera_cubano.png"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/macbook/Downloads/en.pdf",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{HOST}}/admin/upload",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"admin",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/upload/:file_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ACCESS_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/macbook/Downloads/dora.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{HOST}}/admin/upload/:file_id",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"admin",
+						"upload",
+						":file_id"
+					],
+					"variable": [
+						{
+							"key": "file_id",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/version/:version_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ACCESS_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/admin/version/:version_id",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"admin",
+						"version",
+						":version_id"
+					],
+					"variable": [
+						{
+							"key": "version_id",
+							"value": "clxt0eqml00096vjg8jg4n2ov"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/history",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ACCESS_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/admin/history",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"admin",
+						"history"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "localhost:8080"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3MTkyMzUwODEsImV4cCI6MTcxOTIzODY4MX0.bAKxY-gQ2FLGjRve0xKtuU1l_djBg-Ot9GWdHB5ENeU"
+		}
+	]
+}

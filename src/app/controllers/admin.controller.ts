@@ -89,4 +89,9 @@ export class AdminController {
   deleteFileVersion(@Param('versionId') versionId: string) {
     return this.fileService.deleteFileVersion(versionId);
   }
+
+  @Delete('file/:fileId')
+  deleteFile(@Param('fileId') fileId: number) {
+    return this.fileService.deleteFile(fileId);
+  }
 }

@@ -1,16 +1,8 @@
 
-## TODO
-- Tests
-- Docs
-- Check docker compose
-- Monitoring
-- Old unused file cleaner job
-- Fix file upload in swagger
-- Include postman collection
+# NestJS File Upload Test Task service
 
-/**
-Technical task:
-Test task:
+## Task requirements
+
 Create a Nest.js application that should has public and private endpoints.
 Private endpoints should be protected by auth method.
 Public endpoint allows to read the data and private allows to write data.
@@ -35,30 +27,38 @@ Evaluation criteria:
 During the face to face interview you will have the opportunity
 to explain your design choices and provide justifications for
 the parts that you omitted
-*/
 
-## Running the app
+## Solution approach
+- Two modules: common and app, for segregation of common/feature logic.
+- Further feature moduling possible, if app codebase becomes too big.
+- Files categorized by their function.
+- Postgresql and Prisma are used for data storage
+- JWT token with nestjs AuthGuard is used for authorization
+- Uploaded files are stored directly in filesystem, but destination is easily replaceable for production.
+- Main features (authorization and file upload) are tested.
+- You can drag n drop postman folder into your Postman app to rapidly test service api, run by docker-compose.
+
+## TODO
+- More tests
+- Fix swagger file upload
+- Monitoring
+- Old unused file cleaner job
+
+## Useful commands
 
 ```bash
-# development
-$ yarn run start
+# start
+npm run start:dev
 
-# watch mode
-$ yarn run start:dev
+# run migrations and build (used in docker)
+npm run start:migrate:prod
 
-# production mode
-$ yarn run start:prod
-```
+# generate prisma models
+npm run prisma:generate
 
-## Test
+# migrate database
+npm run prisma:migrate
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+# creates user admin:admin in database for tests
+npm run create-test-user
 ```

@@ -51,8 +51,12 @@ describe('AuthController (e2e)', () => {
       .expect(200);
   });
 
-  it('/admin/history does not work without auth', () => {
-    return request(app.getHttpServer()).get('/admin/history').expect(401);
+  it('/admin apis do not work without auth', async () => {
+    await request(app.getHttpServer()).get('/admin/history').expect(401);
+    await request(app.getHttpServer()).post('/admin/upload').expect(401);
+    await request(app.getHttpServer()).post('/admin/upload/1').expect(401);
+    await request(app.getHttpServer()).delete('/admin/version/1').expect(401);
+    await request(app.getHttpServer()).delete('/admin/file/1').expect(401);
   });
 
   it('/admin/history works with auth', async () => {

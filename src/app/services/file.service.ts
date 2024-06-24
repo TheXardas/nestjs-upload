@@ -100,6 +100,23 @@ export default class FileService {
     };
   }
 
+  async deleteFile(fileId: number) {
+    await this.db.$transaction(async (tx) => {
+      const file = await tx.file.findUnique({ where: { id: fileId } });
+      if (!file) {
+        throw new NotFoundException();
+      }
+
+      const versions = await tx.fileVersion.findMany({ where: { fileId } });
+      versions.forEach((version) => {
+        this.fileSystemService.removeFile(this.path + '/' + version.id);
+      })
+
+      await tx.fileVersion.deleteMany({ where: { fileId } });
+      await tx.file.delete({ where: { id: fileId } });
+    });
+  }
+
   async deleteFileVersion(versionId: string) {
     await this.db.$transaction(async (tx) => {
       const fileVersion = await tx.fileVersion.findUnique({
