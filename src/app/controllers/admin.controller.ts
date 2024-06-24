@@ -1,7 +1,8 @@
 import {
   Controller,
   Delete,
-  FileTypeValidator, Get,
+  FileTypeValidator,
+  Get,
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
@@ -14,7 +15,12 @@ import {
 import FileService from '../services/file.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiProperty,
+} from '@nestjs/swagger';
 import { AuthorizedRequest } from '../contants';
 
 const imageValidator = new ParseFilePipe({
@@ -28,16 +34,14 @@ const imageValidator = new ParseFilePipe({
   ],
 });
 
+class FileUploadDto {
+  @ApiProperty({ type: 'string', format: 'binary' })
+  file: any;
+}
+
 const fileApiBody = {
-  schema: {
-    type: 'object',
-    properties: {
-      file: {
-        type: 'string',
-        format: 'binary',
-      },
-    },
-  },
+  description: 'File upload',
+  type: FileUploadDto,
 };
 
 @UseGuards(AuthGuard)

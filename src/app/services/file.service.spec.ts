@@ -126,7 +126,10 @@ describe('FileService', () => {
 
   it('updateFileVersion should validate mimeType', async () => {
     prisma.$transaction.mockImplementation((cb) => cb(prisma));
-    prisma.file.findUnique.mockResolvedValueOnce({ id: 321, mimeType: 'fileType' });
+    prisma.file.findUnique.mockResolvedValueOnce({
+      id: 321,
+      mimeType: 'fileType',
+    });
 
     const dataBuffer = Buffer.from('hi', 'utf8');
 
@@ -142,48 +145,79 @@ describe('FileService', () => {
 
   it('deleteFile should delete all versions', async () => {
     prisma.$transaction.mockImplementation((cb) => cb(prisma));
-    prisma.file.findUnique.mockResolvedValueOnce({ id: 321, mimeType: 'fileType' });
-    prisma.fileVersion.findMany.mockResolvedValueOnce([{ id: 'ver1' }, { id: 'ver5' }, { id: 'ver10' }]);
+    prisma.file.findUnique.mockResolvedValueOnce({
+      id: 321,
+      mimeType: 'fileType',
+    });
+    prisma.fileVersion.findMany.mockResolvedValueOnce([
+      { id: 'ver1' },
+      { id: 'ver5' },
+      { id: 'ver10' },
+    ]);
 
     await fileService.deleteFile(321);
 
     expect(fileSystemService.removeFile.mock.calls).toHaveLength(3);
-    expect(fileSystemService.removeFile.mock.calls.map((c) => c[0]))
-      .toMatchObject(['./testPath/ver1', './testPath/ver5', './testPath/ver10']);
+    expect(
+      fileSystemService.removeFile.mock.calls.map((c) => c[0]),
+    ).toMatchObject(['./testPath/ver1', './testPath/ver5', './testPath/ver10']);
     expect(prisma.fileVersion.deleteMany.mock.calls).toHaveLength(1);
-    expect(prisma.fileVersion.deleteMany.mock.calls[0][0]).toMatchObject({ where: { fileId: 321 } });
+    expect(prisma.fileVersion.deleteMany.mock.calls[0][0]).toMatchObject({
+      where: { fileId: 321 },
+    });
     expect(prisma.file.delete.mock.calls).toHaveLength(1);
-    expect(prisma.file.delete.mock.calls[0][0]).toMatchObject({ where: { id: 321 } });
+    expect(prisma.file.delete.mock.calls[0][0]).toMatchObject({
+      where: { id: 321 },
+    });
   });
 
   it('deleteFileVersion should delete version only', async () => {
     prisma.$transaction.mockImplementation((cb) => cb(prisma));
-    prisma.file.findUnique.mockResolvedValueOnce({ id: 321, mimeType: 'fileType' });
+    prisma.file.findUnique.mockResolvedValueOnce({
+      id: 321,
+      mimeType: 'fileType',
+    });
     prisma.fileVersion.findUnique.mockResolvedValueOnce({ id: 'ver15' });
     prisma.fileVersion.count.mockResolvedValueOnce(3);
 
     await fileService.deleteFileVersion('ver15');
 
     expect(fileSystemService.removeFile.mock.calls).toHaveLength(1);
-    expect(fileSystemService.removeFile.mock.calls[0][0]).toMatch('./testPath/ver15');
+    expect(fileSystemService.removeFile.mock.calls[0][0]).toMatch(
+      './testPath/ver15',
+    );
     expect(prisma.fileVersion.delete.mock.calls).toHaveLength(1);
-    expect(prisma.fileVersion.delete.mock.calls[0][0]).toMatchObject({ where: { id: 'ver15' } });
+    expect(prisma.fileVersion.delete.mock.calls[0][0]).toMatchObject({
+      where: { id: 'ver15' },
+    });
     expect(prisma.file.delete.mock.calls).toHaveLength(0);
   });
 
   it('deleteFileVersion should delete file with last version', async () => {
     prisma.$transaction.mockImplementation((cb) => cb(prisma));
-    prisma.file.findUnique.mockResolvedValueOnce({ id: 321, mimeType: 'fileType' });
-    prisma.fileVersion.findUnique.mockResolvedValueOnce({ id: 'ver15', fileId: 321 });
+    prisma.file.findUnique.mockResolvedValueOnce({
+      id: 321,
+      mimeType: 'fileType',
+    });
+    prisma.fileVersion.findUnique.mockResolvedValueOnce({
+      id: 'ver15',
+      fileId: 321,
+    });
     prisma.fileVersion.count.mockResolvedValueOnce(0);
 
     await fileService.deleteFileVersion('ver15');
 
     expect(fileSystemService.removeFile.mock.calls).toHaveLength(1);
-    expect(fileSystemService.removeFile.mock.calls[0][0]).toMatch('./testPath/ver15');
+    expect(fileSystemService.removeFile.mock.calls[0][0]).toMatch(
+      './testPath/ver15',
+    );
     expect(prisma.fileVersion.delete.mock.calls).toHaveLength(1);
-    expect(prisma.fileVersion.delete.mock.calls[0][0]).toMatchObject({ where: { id: 'ver15' } });
+    expect(prisma.fileVersion.delete.mock.calls[0][0]).toMatchObject({
+      where: { id: 'ver15' },
+    });
     expect(prisma.file.delete.mock.calls).toHaveLength(1);
-    expect(prisma.file.delete.mock.calls[0][0]).toMatchObject({ where: { id: 321 } });
+    expect(prisma.file.delete.mock.calls[0][0]).toMatchObject({
+      where: { id: 321 },
+    });
   });
 });
