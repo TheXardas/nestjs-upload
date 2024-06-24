@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  upload-service:
+    build: .
+    ports:
+      - "8080:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:secretpassword@postgres:5432/uploader?schema=public
+      - PORT=3000
+      - JWT_SECRET=localJwtSecretToken
+      - UPLOAD_MAX_SIZE=104857600
+      - UPLOAD_LOCATION=./files
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=secretpassword
+    container_name: postgres
+    volumes: # TODO proper path
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
