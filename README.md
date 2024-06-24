@@ -44,6 +44,35 @@ the parts that you omitted
 - Monitoring
 - Old unused file cleaner job
 
+## Hot to run it
+
+You should have git and docker pre-installed. It's easier to check how application works with Postman.
+
+```bash
+git clone git@github.com:TheXardas/nestjs-upload.git
+cd nestjs-upload
+docker compose up
+```
+After a little while, application with run on http://localhost:8080
+
+You can import **postman** folder from project root into your Postman app, to test it out.
+
+To authorize, use **/auth/login** endpoint. You can use following body:
+```json
+{"login":"admin","password":"admin"}
+```
+Endpoint will return new **JWT token**, which could be now used for /admin endpoints in postman ACCESS_TOKEN variable.
+
+To edit files and versions use **/admin** endpoints:
+- POST /admin/upload - Create file. This will return fileId and first file versionId)
+- POST /admin/upload/:fileId - Create file version
+- DELETE /admin/file/:fileId - Delete file
+- DELETE /admin/version/:versionId - Delete file version. If all versions are delete, file is removed automatically.
+- GET /admin/history - List all files and their versions
+
+To download files, use public **/download** endpoint:
+- GET /download/:versionId - Returns file, corresponding to provided version.
+
 ## Useful commands
 
 ```bash
