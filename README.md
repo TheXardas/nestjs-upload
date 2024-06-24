@@ -55,7 +55,7 @@ docker compose up
 ```
 After a little while, application with run on http://localhost:8080
 
-You can import **postman** folder from project root into your Postman app, to test it out.
+You can import files in **postman** folder (not the folder though) from project root into your Postman app, to test it out.
 
 To authorize, use **/auth/login** endpoint. You can use following body:
 ```json
