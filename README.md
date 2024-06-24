@@ -13,9 +13,9 @@ This endpoint should accept any binary image and move it into file storage
 Requirements:
 - The file must be versioned
 - History of file changes should be kept
-  DELETE /private/:version
+- DELETE /private/:version
   This endpoint should delete file from the storage by provided version
-  GET /public/:version
+- GET /public/:version
   This endpoint should respond with the file data
 
 Evaluation criteria:
