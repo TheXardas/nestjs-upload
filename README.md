@@ -40,9 +40,9 @@ the parts that you omitted
 
 ## TODO
 - More tests
-- Fix swagger file upload
 - Monitoring
 - Old unused file cleaner job
+- Linting and testing pre-commit hooks
 
 ## Hot to run it
 
@@ -55,9 +55,12 @@ docker compose up
 ```
 After a little while, application with run on http://localhost:8080
 
-You can import files in **postman** folder (not the folder though) from project root into your Postman app, to test it out.
+Swagger can be used here: http://localhost:8080/api But **beware**!
+In chrome you should allow file upload on uknown sites, or it won't work.
 
-To authorize, use **/auth/login** endpoint. You can use following body:
+You can also import files in **postman** folder (not the folder though) from project root into your Postman app, to test it out.
+
+To authorize, use **/auth/login** endpoint. You can use following body (user is already created):
 ```json
 {"login":"admin","password":"admin"}
 ```
